@@ -38,7 +38,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "You are a helpful assistant\nyou have a memory and tools use that to answer concept "
+          "systemMessage": "You are HomeBudget Buddy — a private, plain-language budgeting assistant for household expenses. Be concise (max 4 short lines). Use memory and the vector store when helpful. Show simple math for comparisons, e.g., \"$320 vs $250 → +$70 (+28%).\" Use only information the user provided or retrieved. If data is missing, say exactly what you need (e.g., \"add 2–3 grocery entries first\"). Do not request bank logins. Keep tone friendly and family-safe."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -82,8 +82,8 @@
     },
     {
       "parameters": {
-        "name": "single_source_of_truth",
-        "description": "Retrieve information about everything "
+        "name": "budget_library",
+        "description": "Retrieve budgeting notes & spending docs"
       },
       "id": "7e2dd206-882f-4cd6-a055-d29e59f32dfa",
       "name": "Vector Store Tool1",
@@ -135,7 +135,7 @@
     },
     {
       "parameters": {
-        "content": "## chat bot",
+        "content": "## HomeBudget Buddy — Chat\nMinimal, privacy-first budgeting assistant.\n\nUse: Ask things like \"Why were groceries higher this month?\" or \"What did I spend on utilities?\" The agent keeps a short memory and uses the Vector Store Tool (budget_library) to retrieve tips and your uploaded spending notes.\n\nPrinciples: useful • understandable • minimal.",
         "height": 848,
         "width": 1088
       },
@@ -150,7 +150,7 @@
     },
     {
       "parameters": {
-        "content": "\n\n# Understanding Your AI Chatbot: A Simple Guide to RAG\n\nThis document breaks down a workflow for creating a smart chatbot. This isn't just any chatbot; it's one that can remember your conversation and look up external information to give you smarter, more accurate answers.\n\nThis process uses a powerful AI technique called **Retrieval-Augmented Generation (RAG)**.\n\n> **Analogy:** Think of this AI as a super-smart research assistant. You ask a question. The assistant first thinks about what you've already discussed (**Memory**), then quickly searches through a specialized library for the most relevant facts (**Retrieval**), and finally, uses that information to craft a perfect, well-informed answer for you (**Generation**).\n\n## The Workflow Components Explained\n\nLet's look at each part of the system and what it does.\n\n### 1. `When chat message received`\n*   **Role:** The Messenger\n*   This is simply the starting point—the chat window where a user types their question. It's the front door for all communication with the AI.\n\n### 2. `AI Agent`\n*   **Role:** The Brain\n*   This is the central coordinator. When your message comes in, the AI Agent decides what to do. Should it answer directly? Does it need to check its memory? Or does it need to use one of its tools to look up information? It's the decision-maker that orchestrates the entire process.\n\n### 3. `Google Gemini Chat Model`\n*   **Role:** The Conversationalist\n*   This is the core language model that understands and generates human-like text. It’s what allows the AI to chat naturally.\n*   **Real-World Link:** You can experience a similar model on the [Google AI Studio](https://aistudio.google.com/) website.\n\n### 4. `Simple Memory`\n*   **Role:** The Short-Term Memory\n*   This component gives the AI a memory of the current conversation. It's why you can ask follow-up questions like \"what about the second point?\" without having to repeat the original context.\n\n### 5. `Vector Store Tool`\n*   **Role:** The Research Skill\n*   This is a special tool the `AI Agent` can use. When the agent determines it needs more information, it activates this tool to search its knowledge base.\n\n### 6. `Postgres PGVector Store`\n*   **Role:** The Smart Library\n*   This is the specialized database where information is stored. It's a \"vector\" store, meaning information is organized by its contextual meaning, not just keywords. This allows the AI to find relevant documents even if they don't contain the exact words from your question.\n*   **Real-World Link:** [PostgreSQL](https://www.postgresql.org/) is a popular open-source database, and the `pgvector` extension gives it this smart-search capability.\n\n### 7. `Embeddings Google Gemini`\n*   **Role:** The Expert Librarian\n*   Before information can be put into the \"Smart Library,\" it needs to be translated into a numerical format (vectors) that the AI can understand. This model acts like a librarian, reading all the source text and organizing it based on its meaning.\n*   **Real-World Link:** Learn more about this process from [Google's AI for Developers documentation](https://ai.google.dev/docs/embeddings_guide).\n\n### 8. `Google Gemini Chat Model (retrieval)`\n*   **Role:** The Synthesizer\n*   After the `Vector Store Tool` retrieves the necessary information, this second Gemini model takes over. Its job is to synthesize the retrieved facts with its general knowledge to formulate the final, comprehensive answer to your question.\n\n---\n\n## How It All Works Together: An Example\n\n1.  **You ask:** \"What is RAG and why is it important?\"\n2.  The **`AI Agent`** (The Brain) receives this and decides it needs to look up information from its knowledge base.\n3.  It uses the **`Vector Store Tool`** (The Research Skill) to search the **`Postgres PGVector Store`** (The Smart Library).\n4.  The store provides the most relevant documents about RAG.\n5.  The **`Google Gemini Chat Model (retrieval)`** (The Synthesizer) takes these documents and crafts a detailed, easy-to-understand explanation.\n6.  The final answer is sent back to you in the chat.",
+        "content": "# How this chat works (RAG)\n1) Chat message → AI Agent decides whether to answer directly or retrieve.\n2) If needed, Vector Store Tool searches Postgres pgvector (your uploaded PDFs).\n3) Gemini (retrieval) synthesizes a concise, plain-language answer with simple math.\n\nTip: Keep PDFs short and specific (monthly spending summaries, category notes).",
         "height": 1600,
         "width": 1168,
         "color": 5

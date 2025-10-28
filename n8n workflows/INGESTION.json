@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "formTitle": "INGETION ",
-        "formDescription": "test ingestion",
+        "formTitle": "HomeBudget Buddy — Ingestion",
+        "formDescription": "Upload a short PDF with monthly spending notes or category totals.",
         "formFields": {
           "values": [
             {
@@ -94,7 +94,7 @@
     },
     {
       "parameters": {
-        "content": "## INGESTION \n",
+        "content": "## HomeBudget Buddy — Ingestion\nUpload **short, focused** PDFs (e.g., a monthly spending summary). Keeping documents concise improves retrieval quality.",
         "height": 848,
         "width": 1392
       },
@@ -109,7 +109,7 @@
     },
     {
       "parameters": {
-        "content": "---\n\n# Building the AI's Brain: The Knowledge Ingestion Workflow\n\nBefore our AI chatbot can answer any questions, we first need to give it a library to read from. This process, called **ingestion**, is how we take raw information (like a PDF document) and load it into the AI's specialized database.\n\nThis is the \"counterpart\" to the chat workflow. While the first workflow was about *retrieving* answers, this one is all about *providing* the knowledge in the first place.\n\n## The Ingestion Workflow Components Explained\n\nLet's break down how we get information from a simple file into the AI's memory.\n\n### 1. `On form submission`\n*   **Role:** The Drop-off Point\n*   This is a simple web form where you can upload a file. In this case, it's set up to accept PDF documents. Think of it as the mail slot where you drop off new books for the library.\n\n### 2. `Extract from File`\n*   **Role:** The Document Processor\n*   Once a PDF is uploaded, this node scans the document and extracts all the raw text from it. It essentially \"reads\" the document and pulls out all the words, ignoring the formatting, images, and layout.\n\n### 3. `Default Data Loader`\n*   **Role:** The Organizer\n*   The raw text is then passed to this loader. Its job is to take the long stream of text and break it down into smaller, manageable chunks or \"documents.\" This is important because it's more efficient for the AI to search through small, focused paragraphs than a giant, single block of text.\n\n### 4. `Embeddings Google Gemini`\n*   **Role:** The Expert Librarian\n*   This is the same \"Librarian\" from our chat workflow. It takes each chunk of text from the `Default Data Loader` and translates it into a numerical representation called a \"vector embedding.\" This vector captures the context and semantic meaning of the text. This is the most crucial step to making the library \"smart.\"\n*   **Real-World Link:** Learn more about this powerful concept from [Google's AI for Developers documentation](https://ai.google.dev/docs/embeddings_guide).\n\n### 5. `Postgres PGVector Store`\n*   **Role:** The Smart Library\n*   Finally, the newly created vector embeddings (the \"smart\" version of our text chunks) are stored in this specialized database. The `mode` is set to `insert`, which means we are adding new information. Once stored here, this knowledge is ready to be searched and retrieved by the chat workflow.\n*   **Real-World Link:** This uses [PostgreSQL](https://www.postgresql.org/) with the `pgvector` extension, a popular and powerful combination for building AI knowledge bases.\n\n---\n\n## How It All Works Together: An Example\n\n1.  **You upload a PDF** about climate change using the web form.\n2.  The **`Extract from File`** node pulls all the text out of the PDF.\n3.  The **`Default Data Loader`** breaks this text into logical paragraphs or chunks.\n4.  The **`Embeddings Google Gemini`** model converts each chunk into a unique vector embedding.\n5.  The **`Postgres PGVector Store`** takes all these embeddings and files them away in the database.\n\nNow, the \"Smart Library\" is updated. The next time a user asks the chatbot, \"What are the effects of rising sea levels?\", the chat workflow can instantly search this newly added information to find the relevant chunks and provide an accurate answer.",
+        "content": "---\n# What this workflow does\n1) Extracts text from your uploaded PDF.\n2) Chunks it into small sections.\n3) Creates embeddings with Gemini.\n4) Inserts them into Postgres pgvector so the chat can retrieve budgeting tips and your spending notes.",
         "height": 1184,
         "width": 1600,
         "color": 5
